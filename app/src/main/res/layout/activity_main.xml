@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    tools:context=".MainActivity">
+
+    <!--<fragment-->
+        <!--android:id="@+id/fragmento_noticias"-->
+        <!--android:name="com.lucas.oz.eventify.NoticiasFragment"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--tools:layout="@layout/fragment_noticias" />-->
+
+    <!-- activity_screen_slide.xml -->
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text="Eventos"
+        android:textColor="@color/colorAccent"
+        android:textSize="25sp"
+        android:textStyle="bold" />
+
+    <android.support.v4.view.ViewPager xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="20dp">
+
+        <android.support.v4.view.PagerTabStrip
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+
+        </android.support.v4.view.PagerTabStrip>
+    </android.support.v4.view.ViewPager>
+
+</RelativeLayout>
