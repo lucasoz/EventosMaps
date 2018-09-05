@@ -10,8 +10,15 @@ import android.util.Log;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+
+import java.util.List;
 
 
 public class MapaFragment extends SupportMapFragment implements OnMapReadyCallback {
@@ -33,12 +40,43 @@ public class MapaFragment extends SupportMapFragment implements OnMapReadyCallba
 
     public void onMapReady(GoogleMap map) {
         mMap = map;
-        LatLng sydney = new LatLng(-33.852, 151.211);
-        mMap.addMarker(new MarkerOptions().position(sydney)
-                .title("Marker in Sydney"));
+
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Event");
+        query.findInBackground(new FindCallback<ParseObject>() {
+            public void done(List<ParseObject> listaEventosParce, ParseException e) {
+                if (e == null) {
+                    Log.d("evento", "Obtenidos " + listaEventosParce.size() + " eventos");
+
+                    for(ParseObject objetoParse:listaEventosParce){
+                        String titulo = (String) objetoParse.get("titulo");
+                        String enlace = (String) objetoParse.get("enlace");
+                        String enlaceImagen = (String) objetoParse.get("enlaceImagen");
+                        String categoria = (String) objetoParse.get("categoria");
+                        double latitud = (double) objetoParse.get("longitud");
+                        double longitud = (double) objetoParse.get("latitud");
+                        Evento nuevoEvento = new Evento(titulo,enlace,enlaceImagen,categoria,latitud,longitud);
+                        mMap.addMarker(opcionesMarcadorDeEvento(nuevoEvento));
+                    }
+
+                } else {
+                    Log.d("evento", "Error: " + e.getMessage());
+                }
+            }
+        });
+
+
+        //localizacion actual;
         getLocationPermission();
         updateLocationUI();
 
+    }
+
+    public MarkerOptions opcionesMarcadorDeEvento (Evento evento){
+        MarkerOptions opcionesMarcador = new MarkerOptions();
+        opcionesMarcador.position(new LatLng(evento.getLatitud(),evento.getLongitud()));
+        opcionesMarcador.icon(evento.iconoDeCategoria());
+        opcionesMarcador.title(evento.getTitulo());
+        return opcionesMarcador;
     }
 
     private void getLocationPermission() {

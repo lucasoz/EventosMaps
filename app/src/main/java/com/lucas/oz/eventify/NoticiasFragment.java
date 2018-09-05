@@ -57,7 +57,9 @@ public class NoticiasFragment extends Fragment {
                         String enlace = (String) objetoParse.get("enlace");
                         String enlaceImagen = (String) objetoParse.get("enlaceImagen");
                         String categoria = (String) objetoParse.get("categoria");
-                        Evento nuevoEvento = new Evento(titulo,enlace,enlaceImagen,categoria);
+                        double latitud = (double) objetoParse.get("longitud");
+                        double longitud = (double) objetoParse.get("latitud");
+                        Evento nuevoEvento = new Evento(titulo,enlace,enlaceImagen,categoria,latitud,longitud);
                         mListaEventos.add(nuevoEvento);
                     }
 
